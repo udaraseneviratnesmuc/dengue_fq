@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3mobile.css">
+	<head>
+		<style>
+			div{
+				text-align:center;		
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div style="width:100%;height:100%">
+			<div style="padding:20px">
+				<input style="width:90%; height:80px; font-size:48px;text-align:center" type="number" id="weight" onkeyup="process()"/> <span style="font-size:25px">Kg</span>
+			</div>
+			<div>
+				<p style="font-size:30px; color:blue">
+					FQ : <span id="fq">0</span> ml
+				</p>
+			</div>
+			<div>
+				<p style="font-size:30px; color:chocolate">
+					FQ/Hour : <span id="fqPerHour">0</span> ml/h
+				</p>
+			</div>
+			<div>
+				<p>This application is designed to calculate fluid need of a dengue patient by body weight. Enter weight to calculate. <a href="downloads/dengue-fq.apk" style="color:red">Download</a> Android version.</p>			
+			</div>
+			<div>
+				<p style="font-weight:bold; color:deeppink; font-size:20px">Dear patient, Get Well Soon ......</p>
+			</div>
+		</div>
+	</body>
+
+	<script>
+		function process(){
+			var weight = document.getElementById("weight").value;
+			var fluidQouta = calculateFq(weight);
+			var fluidQoutaPerhour = calculateFqPerHour(fluidQouta);
+
+			document.getElementById("fq").innerHTML = fluidQouta;
+			document.getElementById("fqPerHour").innerHTML = (fluidQoutaPerhour).toFixed(2);
+		}
+
+		function calculateFq(weight){
+			var fluidFor48Hours = 0;
+			
+			var commonQuota = weight * 50;
+		 	
+			fluidFor48Hours = fluidFor48Hours + commonQuota;
+			
+			if(weight <= 10){
+				var additionalFqForFirst10 = 100*weight;
+				fluidFor48Hours = fluidFor48Hours + additionalFqForFirst10;			
+			}else if(weight <= 20){
+				var additionalFqForFirst10 = 1000;
+				var additionalFqForSecond10 = 50*(weight-10);
+				fluidFor48Hours = fluidFor48Hours + additionalFqForFirst10 + additionalFqForSecond10;
+			}else if(weight > 20){
+				var additionalFqForFirst10 = 1000;
+				var additionalFqForSecond10 = 500;
+				var additionalFqForThird10 = 20*(weight-20);
+				fluidFor48Hours = fluidFor48Hours + additionalFqForFirst10 + additionalFqForSecond10 + additionalFqForThird10;
+			}
+
+			return fluidFor48Hours;
+		}
+
+		function calculateFqPerHour(fq){
+			return fq/48;
+		}
+	</script>
+
+</html>
